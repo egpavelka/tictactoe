@@ -1,0 +1,100 @@
+* {
+    padding: 0;
+    margin: 0;
+    border: none;
+    box-sizing: border-box;
+}
+body {
+    text-align: center;
+    font-family: 'Rock Salt', monospace;
+    font-size: 25px;
+    color: white;
+    letter-spacing: 1px;
+    background-color: white;
+    background: url(chalkboard-bg.jpg) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+.button:hover, td:hover {
+    cursor: pointer;
+}
+span {
+    margin: 5px;
+}
+.container {
+    width: 300px;
+    margin: 50px auto;
+}
+h1 {
+    padding-bottom: 20px;
+    font-size: 42px;
+    font-weight: normal;
+}
+h2 {
+    font-size: 28px;
+    padding-bottom: 10px;
+}
+table {
+    background: url(chalk-border.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-collapse: collapse;
+    padding: 10px;
+}
+td {
+    width: 100px;
+    height: 100px;
+    background-color: transparent;
+    text-align: center;
+    font-size: 60px;
+    font-family: 'Cabin Sketch';
+    font-weight: normal;
+}
+
+/***** ALERT WINDOWS *****/
+
+.alert-bg {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 4, 0.4);
+}
+.alert-box {
+    margin: 150px auto;
+    background-color: rgb(0, 23, 61);
+    background-color: rgba(0, 23, 61, 0.8);
+    padding: 30px;
+    width: 80%;
+    max-width: 550px;
+    border-radius: 10px;
+}
+.alert-box .title {
+    font-size: 30px;
+    border: none;
+}
+.alert-box .description {
+    font-family: 'Gloria Hallelujah';
+    margin-bottom: 10px;
+}
+.dismiss-button, .l-button, .r-button {
+    color: #F0EEBD;
+    padding: 20px 40px;
+    font-size: 36px;
+    background-image: url(chalk-circle.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 70px 70px;
+}
+.l-button {
+    margin-right: 20px;
+}
+.r-button {
+    margin-left: 20px;
+}

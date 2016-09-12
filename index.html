@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>egpavelka || tic tac toe</title>
+	<link rel="stylesheet" type="text/css" href="styles.css">
+	<link rel="stylesheet" type="text/css" href="animate.css">
+	 <link href="https://fonts.googleapis.com/css?family=Gloria+Hallelujah|Rock+Salt|Cabin+Sketch" rel="stylesheet">
+ </head>
+
+<body>
+	<div class="container">
+		<h1>tic tac toe</h1>
+		<table>
+			<tr>
+				<td id="sq1" onclick="userAction('sq1')"></td>
+				<td id="sq2" onclick="userAction('sq2')"></td>
+				<td id="sq3" onclick="userAction('sq3')"></td>
+			</tr>
+			<tr>
+				<td id="sq4" onclick="userAction('sq4')"></td>
+				<td id="sq5" onclick="userAction('sq5')"></td>
+				<td id="sq6" onclick="userAction('sq6')"></td>
+			</tr>
+			<tr>
+				<td id="sq7" onclick="userAction('sq7')"></td>
+				<td id="sq8" onclick="userAction('sq8')"></td>
+				<td id="sq9" onclick="userAction('sq9')"></td>
+			</tr>
+		</table>
+		<div id="turn-alert" class="soft-alert">
+
+		</div>
+	</div>
+
+	<!-- ALERTS -->
+
+	<div id="begin-alert" class="alert-bg">
+		<div class="alert-box">
+			<div class="title">Start</div>
+			<div class="description">
+					Pick your token.
+			</div>
+			<div>
+			<span class="l-button button" onclick="chooseToken('x','o')">x</span><span class="r-button button" onclick="chooseToken('o','x')">o</span>
+		</div>
+	</div>
+	</div>
+
+	<div id="win-alert" class="alert-bg">
+		<div class="alert-box">
+			<div class="title">You won!</div>
+			<div class="description">
+					Great job.
+			</div>
+			<div>
+			<span class="dismiss-button button" onclick="dismissAlert(winAlert)">
+&#10004;</span>
+		</div>
+		</div>
+	</div>
+
+	<!-- SCRIPTS -->
+	<script type="text/javascript" src="script.js"></script>
+</body>
+
+</html>
