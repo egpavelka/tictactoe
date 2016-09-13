@@ -19,10 +19,12 @@ function startGame() {
 
     /// Clear the board
     for (var i = 0; i < squaresList.length; i++) {
-      board[squaresList[i]].innerHTML = "";
+        board[squaresList[i]].innerHTML = "";
     }
     /// show chooseToken dialogue
     document.getElementById('begin-alert').style.display = 'block';
+    /// hide turn alert
+    document.getElementById('turn-alert').style.display = 'none';
     //// SCORE SETUP
     wins = [
         // ROWS
@@ -110,7 +112,7 @@ function startGame() {
     };
 }
 /// EXECUTE ON SCRIPT LOAD
-  startGame();
+startGame();
 
 //// SETTING TOKENS AND TURN ORDER
 /// User picks token
@@ -128,16 +130,17 @@ function firstTurn() {
         // (Not using computerAction because first turn is random.)
         mark(squaresList[(Math.floor(Math.random() * 8) + 1)], computer);
         // Alert the user that it's their turn now
-        document.getElementById('turn-alert').style.display = 'block';
+        beginUserTurnAlert();
     } else {
         // User goes first.
-        document.getElementById('turn-alert').style.display = 'block';
+        beginUserTurnAlert();
     }
 }
 
 //// MARKING FUNCTION
 function mark(square, player) {
     // Mark the square on the board
+    board[square].className = "animated flipInX";
     board[square].innerHTML = player.token;
     board[square].style.color = player.hex;
     // Remove marked square from list of unmarked
@@ -150,8 +153,8 @@ function mark(square, player) {
             wins[i].filled++;
         }
     }
+    // Check for win, then draw, then alert user it's their turn
     winCheck();
-    drawCheck();
 }
 
 //////// PLAYER ACTIONS
@@ -161,24 +164,23 @@ function userAction(square) {
     if (board[square].innerHTML === "") {
         mark(square, user);
     }
-    document.getElementById('turn-alert').style.display = 'none';
-// Computer's turn
-    computerAction();
+    endUserTurnAlert();
+    // Computer's turn
+    setTimeout(computerAction, 1000);
 }
 
 /// COMPUTER
 // Start the madness
 function computerAction() {
-  conditionMet = false;
-  // Call first strategy function
-  firstPriority();
-  // Alert user it's their turn
-  beginUserTurnAlert();
+    conditionMet = false;
+    // Call first strategy function
+    firstPriority();
+    setTimeout(beginUserTurnAlert, 500);
 }
 // SELECT SQUARE TO MARK
 // The strategy functions will find the best possible move and send the set that contains it to this function.  This will find the first blank square in that set and send it to the mark() function.
 function markEmpty(winSet) {
-  var winSetArr = Object.keys(winSet);
+    var winSetArr = Object.keys(winSet);
     for (var i = 0; i < winSetArr.length; i++) {
         if (squaresList.indexOf(winSetArr[i]) > -1) {
             mark(winSetArr[i], computer);
@@ -212,7 +214,7 @@ function firstPriority() {
         }
     }
     if (conditionMet === false) {
-      secondPriority();
+        secondPriority();
     }
 }
 // SECOND check if a win combo has two squares marked by the user; if so, mark the last one.
@@ -225,7 +227,7 @@ function secondPriority() {
         }
     }
     if (conditionMet === false) {
-      thirdPriority();
+        thirdPriority();
     }
 }
 // THIRD check if a win combo has one square filled by the computer; if so, mark the next one.
@@ -238,7 +240,7 @@ function thirdPriority() {
         }
     }
     if (conditionMet === false) {
-      fourthPriority();
+        fourthPriority();
     }
 }
 // FOURTH check if a win combo has no marked squares; if so, mark one.
@@ -251,7 +253,7 @@ function fourthPriority() {
         }
     }
     if (conditionMet === false) {
-      fifthPriority();
+        fifthPriority();
     }
 }
 // FIFTH check if a win combo has one square filled by the user; if so, mark the next one.
@@ -264,7 +266,7 @@ function fifthPriority() {
         }
     }
     if (conditionMet === false) {
-      sixthPriority();
+        sixthPriority();
     }
 }
 // SIXTH just mark a damn square.
@@ -287,39 +289,59 @@ function winCheck() {
             displayAlert(winAlert);
         } else if (wins[i].filled === 3 && wins[i].value === 6) {
             displayAlert(loseAlert);
+        } else {
+            drawCheck();
         }
     }
 }
 /// DRAW CHECK
-function drawCheck(){
-if (squaresList.length === 0) {
-   displayAlert(drawAlert);
-}}
+function drawCheck() {
+    if (squaresList.length === 0) {
+        displayAlert(drawAlert);
+    }
+  }
 
 
 
 //////// ALERT WINDOWS
 /// SOFT ALERTS
 function beginUserTurnAlert() {
-    document.getElementById('turn-alert').style.display = 'block';
+    setTimeout(function() {
+            document.getElementById('turn-alert').style.display = 'block';
+            document.getElementById('turn-alert').className = "soft-alert animated fadeInDown";
+        },
+        500);
 }
+
 function endUserTurnAlert() {
-    document.getElementById('turn-alert').style.display = 'block';
+    setTimeout(function() {
+            document.getElementById('turn-alert').className = "soft-alert animated fadeOutDown";
+            document.getElementById('turn-alert').style.display = 'none';
+        },
+        300);
 }
-function squareFilledAlert() {
-    // TODO add a little notification that the user is clicking a filled square.
-}
+
 /// HARD ALERTS
 var winAlert = document.getElementById('win-alert'),
     loseAlert = document.getElementById('lose-alert'),
     drawAlert = document.getElementById('draw-alert');
 
 function displayAlert(event) {
-    event.style.display = 'block';
+    setTimeout(function() {
+
+            // hide turn alert
+            document.getElementById('turn-alert').style.display = 'none';
+            // display win/lose/draw alert
+            event.style.display = 'block';
+        },
+        1100);
 }
+
 function dismissAlert(event) {
     event.style.display = 'none';
     // reload board
-    startGame();
-    // etc.
+    setTimeout(function() {
+            startGame();
+        },
+        500);
 }

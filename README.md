@@ -1,6 +1,11 @@
 This is the second-to-last project in FreeCodeCamp's Front End Development curriculum.
 
 Project info: https://www.freecodecamp.com/challenges/build-a-tic-tac-toe-game
+
+Completed project on codepen.io: http://codepen.io/elwyn/pen/JKRJNJ
+
+Up and running: http://egpavelka.com/tictactoe
+
 ____________________________________________
 
 # DESCRIPTION OF PROJECT FROM FCC
@@ -22,6 +27,12 @@ ____________________________________________
 
 ## CHANGELOG
 ____________________________________________
+## [Release 1.1] 2016.09.13
+### COMPLETED
+- Added a timeout to computerAction() so that it doesn't jump straight back to user's turn.
+- Added a timeout before alert is displayed upon lose/win/draw so that user can see what happened on the board.
+- Added a notification that it's the user's turn.
+- Added animations to marking action and notifications.
 
 ## [Release 1.0] 2016.09.12
 ### COMPLETED

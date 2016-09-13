@@ -42,6 +42,7 @@ table {
     background-repeat: no-repeat;
     border-collapse: collapse;
     padding: 10px;
+    margin-bottom: 20px;
 }
 td {
     width: 100px;
@@ -51,6 +52,14 @@ td {
     font-size: 60px;
     font-family: 'Cabin Sketch';
     font-weight: normal;
+}
+/***** HOVER EFFECTS *****/
+.button:hover, td:hover {
+    cursor: pointer;
+}
+.button:hover {
+  font-size: 42px;
+  background-size: 80px 80px;
 }
 
 /***** ALERT WINDOWS *****/
@@ -67,21 +76,22 @@ td {
     background-color: rgba(0, 0, 4, 0.4);
 }
 .alert-box {
-    margin: 150px auto;
+    margin: 167px auto;
     background-color: rgb(0, 23, 61);
     background-color: rgba(0, 23, 61, 0.8);
-    padding: 30px;
+    height: 300px;
     width: 80%;
     max-width: 550px;
     border-radius: 10px;
 }
 .alert-box .title {
+  padding: 30px 30px 0;
     font-size: 30px;
     border: none;
 }
 .alert-box .description {
     font-family: 'Gloria Hallelujah';
-    margin-bottom: 10px;
+    padding: 0 30px 10px;
 }
 .dismiss-button, .l-button, .r-button {
     color: #F0EEBD;
@@ -97,4 +107,9 @@ td {
 }
 .r-button {
     margin-left: 20px;
+}
+.soft-alert {
+  display: none;
+  font-family: 'Gloria Hallelujah';
+  font-size: 14px;
 }
