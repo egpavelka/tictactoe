@@ -23,6 +23,17 @@ ____________________________________________
 ## CHANGELOG
 ____________________________________________
 
+## [Release 1.0] 2016.09.12
+### COMPLETED
+- Game works.  I think I successfully made it unbeatable.
+
+### IN PROCESS
+- Add a timeout to computerAction() so that it doesn't jump straight back to user's turn.
+- Add a timeout before alert is displayed upon lose/win/draw so that user can see what happened.
+- Add a notification that it's the user's turn.
+- Add animations to marking action and notifications.
+- Add highlight to winning combination.
+
 ## [Unreleased 0.1] 2016.09.11
 ### COMPLETED
 - Base design is done.

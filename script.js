@@ -169,6 +169,7 @@ function userAction(square) {
 /// COMPUTER
 // Start the madness
 function computerAction() {
+  conditionMet = false;
   // Call first strategy function
   firstPriority();
   // Alert user it's their turn
@@ -206,8 +207,12 @@ function firstPriority() {
         // Check for computer win first.
         if (wins[i].filled === 2 && wins[i].value === 4) {
             markEmpty(wins[i].squares);
+            conditionMet = true;
             break;
-        } else secondPriority();
+        }
+    }
+    if (conditionMet === false) {
+      secondPriority();
     }
 }
 // SECOND check if a win combo has two squares marked by the user; if so, mark the last one.
@@ -215,8 +220,12 @@ function secondPriority() {
     for (var i in wins) {
         if (wins[i].filled === 2 && wins[i].value === 2) {
             markEmpty(wins[i].squares);
+            conditionMet = true;
             break;
-        } else thirdPriority();
+        }
+    }
+    if (conditionMet === false) {
+      thirdPriority();
     }
 }
 // THIRD check if a win combo has one square filled by the computer; if so, mark the next one.
@@ -224,8 +233,12 @@ function thirdPriority() {
     for (var i in wins) {
         if (wins[i].filled === 1 && wins[i].value === 2) {
             markEmpty(wins[i].squares);
+            conditionMet = true;
             break;
-        } else fourthPriority();
+        }
+    }
+    if (conditionMet === false) {
+      fourthPriority();
     }
 }
 // FOURTH check if a win combo has no marked squares; if so, mark one.
@@ -233,8 +246,12 @@ function fourthPriority() {
     for (var i in wins) {
         if (wins[i].filled === 0) {
             markEmpty(wins[i].squares);
+            conditionMet = true;
             break;
-        } else fifthPriority();
+        }
+    }
+    if (conditionMet === false) {
+      fifthPriority();
     }
 }
 // FIFTH check if a win combo has one square filled by the user; if so, mark the next one.
@@ -242,8 +259,12 @@ function fifthPriority() {
     for (var i in wins) {
         if (wins[i].filled === 1 && wins[i].value === 1) {
             markEmpty(wins[i].squares);
+            conditionMet = true;
             break;
-        } else sixthPriority();
+        }
+    }
+    if (conditionMet === false) {
+      sixthPriority();
     }
 }
 // SIXTH just mark a damn square.
@@ -251,6 +272,7 @@ function sixthPriority() {
     for (var i in wins) {
         if (wins[i].filled <= 2) {
             markEmpty(wins[i].squares);
+            conditionMet = true;
             break;
         }
     }
