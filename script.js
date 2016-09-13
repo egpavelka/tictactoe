@@ -1,7 +1,6 @@
 //// INITIALIZE GAME, set up global vars board, squaresList, wins, user, computer
 function startGame() {
-    ////// BOARD SETUP
-    /// ALL BLANK,
+    /// BOARD SETUP
     board = {
         sq1: document.getElementById('sq1'),
         sq2: document.getElementById('sq2'),
@@ -13,10 +12,12 @@ function startGame() {
         sq8: document.getElementById('sq8'),
         sq9: document.getElementById('sq9')
     };
-    /// prob temp var??
+    /// RESET FOR EACH GAME
+
+    // Array of the keys from object "board".  Used in computerAction() to find blank squares and mark them.  Marked squares are removed from the list in mark().
     squaresList = Object.keys(board);
 
-    /// for resetting--clear out all marked squares
+    /// Clear the board
     for (var i = 0; i < squaresList.length; i++) {
       board[squaresList[i]].innerHTML = "";
     }
@@ -108,8 +109,11 @@ function startGame() {
         hex: '#ADEBF0'
     };
 }
+/// EXECUTE ON SCRIPT LOAD
   startGame();
-//// User picks token
+
+//// SETTING TOKENS AND TURN ORDER
+/// User picks token
 function chooseToken(a, b) {
     user.token = a;
     computer.token = b;
@@ -117,16 +121,16 @@ function chooseToken(a, b) {
     firstTurn();
 }
 
-////// GAME SETUP
-//// Generate first turn
+/// Generate first turn
 function firstTurn() {
     if (Math.random() < 0.5) {
         // Computer goes first.
-        //// Not using computerAction because first turn is random.
+        // (Not using computerAction because first turn is random.)
         mark(squaresList[(Math.floor(Math.random() * 8) + 1)], computer);
-        // TODO tiny delay, then "Your turn!"
+        // Alert the user that it's their turn now
+        document.getElementById('turn-alert').style.display = 'block';
     } else {
-        // User goes first.  "Your turn!"
+        // User goes first.
         document.getElementById('turn-alert').style.display = 'block';
     }
 }
@@ -136,6 +140,8 @@ function mark(square, player) {
     // Mark the square on the board
     board[square].innerHTML = player.token;
     board[square].style.color = player.hex;
+    // Remove marked square from list of unmarked
+    squaresList.splice(squaresList.indexOf(square), 1);
     // Find the square in each of its winning combinations and update its value with the player's token.  Add the player's value to the win set and increment the win set's fill count.
     for (var i in wins) {
         if (wins[i].squares.hasOwnProperty(square)) {
@@ -145,47 +151,55 @@ function mark(square, player) {
         }
     }
     winCheck();
+    drawCheck();
 }
 
-///// USER
+//////// PLAYER ACTIONS
+/// USER
 function userAction(square) {
     // Prevent player from changing marked squares
     if (board[square].innerHTML === "") {
         mark(square, user);
     }
     document.getElementById('turn-alert').style.display = 'none';
-
-    firstPriority();
+// Computer's turn
+    computerAction();
 }
 
-//// WIN CHECK
-function winCheck() {
-    for (var i in wins) {
-        if (wins[i].filled === 3 && wins[i].value === 3) {
-            displayAlert(winAlert);
-        } else if (wins[i].filled === 3 && wins[i].value === 6) {
-            displayAlert(loseAlert);
+/// COMPUTER
+// Start the madness
+function computerAction() {
+  // Call first strategy function
+  firstPriority();
+  // Alert user it's their turn
+  beginUserTurnAlert();
+}
+// SELECT SQUARE TO MARK
+// The strategy functions will find the best possible move and send the set that contains it to this function.  This will find the first blank square in that set and send it to the mark() function.
+function markEmpty(winSet) {
+  var winSetArr = Object.keys(winSet);
+    for (var i = 0; i < winSetArr.length; i++) {
+        if (squaresList.indexOf(winSetArr[i]) > -1) {
+            mark(winSetArr[i], computer);
+            break;
         }
     }
 }
-
+// STRATEGY FUNCTIONS
 /*
+STRATEGY:
 1. If the computer can win, win.
 2. If the user can win, block it.
 3. If the computer has started a win set and the user has not blocked it, mark another in the set.
 4. If there is a blank win set, mark a square in that set.
 5. If the user has started a win set and the computer has not blocked it, block it. (Not sure on priority order of 4 & 5.)
 6. Just mark whatever is open to hasten the draw.
+
+PROCESS:
+There are six functions--one for each move listed in the strategy above and named for its priority in that list.  They are identical except for the condition that is being tested; each function loops through all 8 winning combinations.  The first combination that meets the function's condition will be sent to markEmpty() and the loop will break.  If no winning set matches the function's condition, the next priority's function will execute in the same way.
+// TODO this seems super bloated and it would be cool if there were a way to achieve the same thoroughness without six functions and their loops.
 */
-function markEmpty(winSet) {
-    for (var j in winSet) {
-        if (winSet[j] === "") {
-          // TODO
-            mark(/* something */ toMark, computer);
-            break;
-        }
-    }
-}
+
 // FIRST check if a win combo has two squares marked by the same computer; if so, mark the last one.
 function firstPriority() {
     for (var i in wins) {
@@ -243,19 +257,37 @@ function sixthPriority() {
 }
 
 
-// // IN CASE OF DRAW
-// if (unmarked === 0) {
-//     // GAME OVER
-// }
+//////// GAME ENDING EVENTS
+/// WIN CHECK
+function winCheck() {
+    for (var i in wins) {
+        if (wins[i].filled === 3 && wins[i].value === 3) {
+            displayAlert(winAlert);
+        } else if (wins[i].filled === 3 && wins[i].value === 6) {
+            displayAlert(loseAlert);
+        }
+    }
+}
+/// DRAW CHECK
+function drawCheck(){
+if (squaresList.length === 0) {
+   displayAlert(drawAlert);
+}}
 
 
 
-
-///// SOFT ALERTS
-function turnAlert() {
+//////// ALERT WINDOWS
+/// SOFT ALERTS
+function beginUserTurnAlert() {
     document.getElementById('turn-alert').style.display = 'block';
 }
-//// HARD ALERTS
+function endUserTurnAlert() {
+    document.getElementById('turn-alert').style.display = 'block';
+}
+function squareFilledAlert() {
+    // TODO add a little notification that the user is clicking a filled square.
+}
+/// HARD ALERTS
 var winAlert = document.getElementById('win-alert'),
     loseAlert = document.getElementById('lose-alert'),
     drawAlert = document.getElementById('draw-alert');
@@ -263,7 +295,6 @@ var winAlert = document.getElementById('win-alert'),
 function displayAlert(event) {
     event.style.display = 'block';
 }
-
 function dismissAlert(event) {
     event.style.display = 'none';
     // reload board
