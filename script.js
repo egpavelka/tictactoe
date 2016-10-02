@@ -130,9 +130,11 @@ function firstTurn() {
         // (Not using computerAction because first turn is random.)
         mark(squaresList[(Math.floor(Math.random() * 8) + 1)], computer);
         // Alert the user that it's their turn now
+            userTurn = true;
         beginUserTurnAlert();
     } else {
         // User goes first.
+            userTurn = true;
         beginUserTurnAlert();
     }
 }
@@ -160,13 +162,16 @@ function mark(square, player) {
 //////// PLAYER ACTIONS
 /// USER
 function userAction(square) {
+  if (userTurn) {
     // Prevent player from changing marked squares
     if (board[square].innerHTML === "") {
         mark(square, user);
     }
+    userTurn = false;
     endUserTurnAlert();
     // Computer's turn
     setTimeout(computerAction, 1000);
+    }
 }
 
 /// COMPUTER
@@ -176,6 +181,7 @@ function computerAction() {
     // Call first strategy function
     firstPriority();
     setTimeout(beginUserTurnAlert, 500);
+    userTurn = true;
 }
 // SELECT SQUARE TO MARK
 // The strategy functions will find the best possible move and send the set that contains it to this function.  This will find the first blank square in that set and send it to the mark() function.
@@ -287,8 +293,11 @@ function winCheck() {
     for (var i in wins) {
         if (wins[i].filled === 3 && wins[i].value === 3) {
             displayAlert(winAlert);
+            winCount ++;
         } else if (wins[i].filled === 3 && wins[i].value === 6) {
             displayAlert(loseAlert);
+            loseCount ++;
+
         } else {
             drawCheck();
         }
@@ -298,6 +307,7 @@ function winCheck() {
 function drawCheck() {
     if (squaresList.length === 0) {
         displayAlert(drawAlert);
+        drawCount ++;
     }
   }
 

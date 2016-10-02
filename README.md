@@ -27,6 +27,13 @@ ____________________________________________
 
 ## CHANGELOG
 ____________________________________________
+## [Release 1.2] 2016.10.02
+### BUG FIX
+- Added userTurn boolean to prevent user double play while computerAction() is in timeout.
+
+### IN PROCESS
+- Added counts for game stats--user will be able to see their percentage of draws/losses/wins in the game over alerts.
+
 ## [Release 1.1] 2016.09.13
 ### COMPLETED
 - Added a timeout to computerAction() so that it doesn't jump straight back to user's turn.
